@@ -1,23 +1,39 @@
 import { handleGoogleSignOut } from "@/app/actions/handle-google-auth";
 import { auth } from "@/app/lib/auth";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 const DashboardPage = async () => {
   const session = await auth();
 
-  if(!session){
-    redirect("/login")
+  if (!session) {
+    redirect("/login");
   }
 
-    const email = session?.user?.name;
+  const email = session?.user?.name;
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <header className="bg-white shadow-md p-4 mb-6">
+      <header className="bg-white shadow-md p-4 mb-6 flex justify-between items-center">
+        <div>
         <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
         <h2 className="text-1xl font-bold text-gray-800">
           Bem-vindo {email ? email : "Usuário"}
         </h2>
+        </div>
+        <div className="flex space-x-4">
+          <Link href={"/payments"}>Pagamentos</Link>
+
+          {email ? (
+            <form action={handleGoogleSignOut}>
+              <button
+                type="submit"
+              >
+                Sair
+              </button>
+            </form>
+          ) : null}
+        </div>
       </header>
 
       <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -35,18 +51,7 @@ const DashboardPage = async () => {
         </div>
       </main>
 
-      <footer>
-        {email ? (
-          <form action={handleGoogleSignOut}>
-            <button
-              className="border rounded-md p-2 cursor-pointer hover:bg-yellow-100"
-              type="submit"
-            >
-              LogOut
-            </button>
-          </form>
-        ) : null}
-      </footer>
+      <footer></footer>
     </div>
   );
 };
