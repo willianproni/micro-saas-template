@@ -1,6 +1,7 @@
 "use client";
 
 import { useStripe } from "@/app/hooks/useStripe";
+import { useMercadoPago } from "@/app/hooks/useMercadoPago";
 
 export default function PaymentsPage() {
   const {
@@ -8,6 +9,8 @@ export default function PaymentsPage() {
     createSubscriptionStripeCheckout,
     handleCreateStripePortal,
   } = useStripe();
+
+  const { createMercadoPagoCheckout } = useMercadoPago();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -34,10 +37,17 @@ export default function PaymentsPage() {
           Criar Assinatura Stripe
         </button>
         <button
-          className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-600 cursor-pointer"
+          className="bg-gray-700 text-white px-4 py-2 mb-3 rounded hover:bg-gray-600 cursor-pointer"
           onClick={handleCreateStripePortal}
         >
           Criar Portal de Pagamento
+        </button>
+
+        <button
+          className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 cursor-pointer"
+          onClick={() => createMercadoPagoCheckout({id: "123", userEmail: "teste@gmail.com"})}
+        >
+          Criar PIX
         </button>
       </div>
     </div>
