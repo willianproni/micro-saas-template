@@ -51,7 +51,6 @@ export async function validateMercadoPagoWebhook(req: NextRequest) {
   const generateHash = hmac.digest("hex");
 
   if (generateHash !== v1) {
-    
     return NextResponse.json("Invalid signature", { status: 401 });
   }
 }
